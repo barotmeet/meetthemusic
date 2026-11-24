@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Thread ClassicalVerse</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="nav-wrap">
+      <div class="container nav-wrap-top">
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true">&#2384;</span>
+          <span class="brand-text"><span>ClassicalVerse</span><span class="brand-name-sub">Sangeet · Raga · Taal</span></span>
+        </a>
+        <div class="header-actions">
+          <button class="icon-btn" id="theme-toggle" aria-label="Toggle colour theme"></button>
+          <a class="btn-primary" href="/learn">Start learning</a>
+          <div class="nav-account" id="account-links"></div>
+          <button class="icon-btn" id="mobile-toggle" aria-label="Open menu"></button>
+        </div>
+      </div>
+      <div class="nav-wrap-bottom">
+        <div class="container">
+          <nav class="nav-links" aria-label="Main navigation">
+            <a href="/ragas">Ragas</a>
+            <a href="/bandishes">Bandishes</a>
+            <a href="/taals">Taals</a>
+            <a href="/artists">Artists</a>
+            <a href="/gurus">Gurus</a>
+            <a href="/concerts">Concerts</a>
+            <a href="/learn">Learn</a>
+            <a href="/community">Community</a>
+            <a href="/archive">Archive</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+      <div class="grid">
+        <a href="/ragas">Ragas</a><a href="/bandishes">Bandishes</a>
+        <a href="/taals">Taals</a><a href="/artists">Artists</a>
+        <a href="/gurus">Gurus</a><a href="/concerts">Concerts</a>
+        <a href="/learn">Learn</a><a href="/community">Community</a>
+        <a href="/archive">Archive</a><a href="/knowledge">Knowledge</a>
+      </div>
+    </div>
+  </header>
+  <main>
+    <article id="detail-root">
+      <p class="loading">Loading</p>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="copyright">� 2026 ClassicalVerse � Preserving sound, sharing knowledge.</p>
+    </div>
+  </footer>
+  <script src="/js/themes.js"></script><script src="/js/ui.js"></script><script src="/js/app.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    (function () {
+      const slug = new URLSearchParams(location.search).get('slug');
+      if (!slug) { document.getElementById('detail-root').innerHTML = '<p class="loading">Missing slug.</p>'; return; }
+      const u = new URL(location.href);
+      u.searchParams.set('type', 'community');
+      u.searchParams.set('slug', slug);
+      history.replaceState({}, '', u.pathname + '?' + u.searchParams.toString());
+      loadDetail();
+    })();
+  </script>
+
+<!-- Floating Contribute Button -->
+<a class="fab-contribute" href="/submit.html" aria-label="Contribute" title="Contribute to ClassicalVerse">
+  <span class="fab-icon" aria-hidden="true">+</span>
+  <span class="fab-label">Contribute</span>
+</a>
+<script src="/js/themes.js"></script><script src="/js/ui.js"></script><script src="/js/app.js" defer></script>
+</body>
+
+</html>

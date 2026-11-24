@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Bandishverse &mdash; ClassicalVerse</title>
+<meta name="description" content="Khayal bandishes, kritis, padams and more &mdash; with lyrics and translations." />
+<link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+<div id="cv-header"></div>
+<main>
+  <header class="page-header reveal">
+    <p class="kicker">Bandishverse</p>
+    <h1 class="page-title">Compositions across traditions</h1>
+    <p class="page-lede">Khayal bandishes, kritis, padams and more &mdash; with lyrics and translations.</p>
+  </header>
+  <section class="section">
+    <div id="module-grid" class="grid-cards"><p class="loading">Loading bandishes&hellip;</p></div>
+  </section>
+</main>
+<div id="cv-footer"></div>
+<div id="cv-fab"></div>
+<script src="/js/layout.js"></script>
+<script src="/js/themes.js"></script><script src="/js/ui.js"></script><script src="/js/app.js"></script>
+<script src="/js/auth.js"></script>
+<script>loadModule('bandishes', '/api/bandishes');</script>
+</body>
+</html>

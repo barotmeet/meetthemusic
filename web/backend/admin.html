@@ -1,0 +1,878 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin &mdash; ClassicalVerse</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+  <style>
+    .admin-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin: 18px 0 24px;
+      border-bottom: 1px solid var(--border, #e6dcc6);
+      padding-bottom: 0;
+    }
+
+    .admin-tab {
+      padding: 10px 16px;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: var(--muted, #7a6e5c);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+    }
+
+    .admin-tab.active {
+      color: var(--fg, #2a1d0b);
+      border-bottom-color: #b8893a;
+    }
+
+    .admin-tab .count {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 1px 8px;
+      border-radius: 999px;
+      background: var(--surface-2, #f4ecda);
+      color: var(--muted, #7a6e5c);
+      font-size: 12px;
+    }
+
+    .admin-tab.active .count {
+      background: #b8893a;
+      color: #fff;
+    }
+
+    .admin-panel {
+      display: none;
+    }
+
+    .admin-panel.active {
+      display: block;
+    }
+
+    .admin-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin: 16px 0 24px;
+    }
+
+    .stat-card {
+      background: var(--surface, #fffaf0);
+      border: 1px solid var(--border, #e6dcc6);
+      border-radius: 12px;
+      padding: 14px 16px;
+    }
+
+    .stat-card .num {
+      font-size: 28px;
+      font-weight: 700;
+      color: #b8893a;
+    }
+
+    .stat-card .lbl {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted, #7a6e5c);
+      margin-top: 4px;
+    }
+
+    .stat-card a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .stat-card a:hover .num {
+      color: #8a6620;
+    }
+
+    .admin-toolbar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: end;
+      margin-bottom: 18px;
+    }
+
+    .admin-toolbar .form-row {
+      margin: 0;
+      min-width: 180px;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--surface, #fffaf0);
+      border: 1px solid var(--border, #e6dcc6);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .data-table th,
+    .data-table td {
+      text-align: left;
+      padding: 10px 14px;
+      font-size: 14px;
+      border-bottom: 1px solid var(--border, #e6dcc6);
+      vertical-align: top;
+    }
+
+    .data-table th {
+      background: var(--surface-2, #f4ecda);
+      font-weight: 600;
+      color: var(--muted, #7a6e5c);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      font-size: 11px;
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .data-table .title-cell {
+      font-weight: 600;
+    }
+
+    .data-table .muted-cell {
+      color: var(--muted, #7a6e5c);
+      font-size: 13px;
+    }
+
+    .row-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .row-actions .btn-mini {
+      padding: 4px 10px;
+      font-size: 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border, #e6dcc6);
+      background: var(--surface, #fffaf0);
+      color: var(--fg, #2a1d0b);
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .row-actions .btn-mini:hover {
+      background: #f4ecda;
+    }
+
+    .row-actions .btn-mini.danger {
+      color: #b03a3a;
+      border-color: #e7c0c0;
+    }
+
+    .row-actions .btn-mini.danger:hover {
+      background: #fbe6e6;
+    }
+
+    .row-actions .btn-mini.primary {
+      background: #b8893a;
+      color: #fff;
+      border-color: #b8893a;
+    }
+
+    .row-actions .btn-mini.primary:hover {
+      background: #8a6620;
+    }
+
+    .empty-row td {
+      text-align: center;
+      color: var(--muted, #7a6e5c);
+      padding: 28px;
+    }
+
+    .status-pill {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .status-pending {
+      background: #fff3d4;
+      color: #8a5e10;
+    }
+
+    .status-approved {
+      background: #d8efd2;
+      color: #2f6a26;
+    }
+
+    .status-rejected {
+      background: #f7d6d6;
+      color: #8b2828;
+    }
+
+    .pill.gold {
+      background: #f3e6c4;
+      color: #6b4d18;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .modal-back {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .4);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+
+    .modal-back.open {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--surface, #fffaf0);
+      border-radius: 14px;
+      padding: 24px;
+      max-width: 720px;
+      width: calc(100% - 32px);
+      max-height: 90vh;
+      overflow: auto;
+    }
+
+    .modal h2 {
+      margin-top: 0;
+    }
+
+    .modal pre {
+      background: var(--surface-2, #f4ecda);
+      padding: 12px;
+      border-radius: 8px;
+      overflow: auto;
+      font-size: 12px;
+      max-height: 360px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 16px;
+    }
+
+    .users-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 12px;
+    }
+
+    .user-card {
+      background: var(--surface, #fffaf0);
+      border: 1px solid var(--border, #e6dcc6);
+      border-radius: 12px;
+      padding: 14px 16px;
+    }
+
+    .user-card .role {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: #e3d8c0;
+      color: #4d3a18;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .user-card .role.admin {
+      background: #b8893a;
+      color: #fff;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 12px 20px;
+      border-radius: 10px;
+      background: #2a1d0b;
+      color: #fffaf0;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .2);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity .2s, transform .2s;
+      z-index: 200;
+      font-size: 14px;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .toast.error {
+      background: #8b2828;
+    }
+
+    .toast.ok {
+      background: #2f6a26;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="nav-wrap">
+      <div class="container nav-wrap-top">
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true">ॐ</span>
+          <span class="brand-text"><span>ClassicalVerse</span><span class="brand-name-sub">Sangeet · Raga · Taal</span></span>
+        </a>
+        <div class="header-actions">
+          <button class="icon-btn" id="theme-toggle" aria-label="Toggle colour theme"></button>
+          <a class="btn-primary" href="/learn">Start learning</a>
+          <div class="nav-account" id="account-links"></div>
+          <button class="icon-btn" id="mobile-toggle" aria-label="Open menu"></button>
+        </div>
+      </div>
+      <div class="nav-wrap-bottom">
+        <div class="container">
+          <nav class="nav-links" aria-label="Main navigation">
+            <a href="/ragas">Ragas</a>
+            <a href="/bandishes">Bandishes</a>
+            <a href="/taals">Taals</a>
+            <a href="/artists">Artists</a>
+            <a href="/gurus">Gurus</a>
+            <a href="/concerts">Concerts</a>
+            <a href="/learn">Learn</a>
+            <a href="/community">Community</a>
+            <a href="/archive">Archive</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+      <div class="grid">
+        <a href="/ragas">Ragas</a><a href="/bandishes">Bandishes</a>
+        <a href="/taals">Taals</a><a href="/artists">Artists</a>
+        <a href="/gurus">Gurus</a><a href="/concerts">Concerts</a>
+        <a href="/learn">Learn</a><a href="/community">Community</a>
+        <a href="/archive">Archive</a><a href="/knowledge">Knowledge</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <header class="page-header">
+      <p class="kicker">Admin console</p>
+      <h1 class="page-title">Manage ClassicalVerse</h1>
+      <p class="page-lede">Review user submissions, browse every module, and manage accounts &mdash; all from one place.
+      </p>
+    </header>
+
+    <section class="section">
+      <!-- Live overview stats -->
+      <div class="admin-stats" id="stats"></div>
+
+      <!-- Tab strip -->
+      <div class="admin-tabs" role="tablist">
+        <button class="admin-tab active" data-tab="queue" role="tab">Moderation queue<span class="count"
+            id="cnt-queue">0</span></button>
+        <button class="admin-tab" data-tab="ragas" role="tab">Ragas<span class="count" id="cnt-ragas">0</span></button>
+        <button class="admin-tab" data-tab="taals" role="tab">Taals<span class="count" id="cnt-taals">0</span></button>
+        <button class="admin-tab" data-tab="bandishes" role="tab">Bandishes<span class="count"
+            id="cnt-bandishes">0</span></button>
+        <button class="admin-tab" data-tab="artists" role="tab">Artists<span class="count"
+            id="cnt-artists">0</span></button>
+        <button class="admin-tab" data-tab="gurus" role="tab">Gurus<span class="count" id="cnt-gurus">0</span></button>
+        <button class="admin-tab" data-tab="concerts" role="tab">Concerts<span class="count"
+            id="cnt-concerts">0</span></button>
+        <button class="admin-tab" data-tab="courses" role="tab">Courses<span class="count"
+            id="cnt-courses">0</span></button>
+        <button class="admin-tab" data-tab="threads" role="tab">Community<span class="count"
+            id="cnt-threads">0</span></button>
+        <button class="admin-tab" data-tab="archive" role="tab">Archive<span class="count"
+            id="cnt-archive">0</span></button>
+        <button class="admin-tab" data-tab="knowledge" role="tab">Knowledge<span class="count"
+            id="cnt-knowledge">0</span></button>
+        <button class="admin-tab" data-tab="users" role="tab">Users<span class="count" id="cnt-users">0</span></button>
+      </div>
+
+      <!-- ========== MODERATION QUEUE ========== -->
+      <div class="admin-panel active" data-panel="queue">
+        <div class="admin-toolbar">
+          <div class="form-row" style="max-width:200px">
+            <label>Status</label>
+            <select id="q-filter">
+              <option value="pending" selected>Pending</option>
+              <option value="approved">Approved</option>
+              <option value="rejected">Rejected</option>
+              <option value="">All</option>
+            </select>
+          </div>
+          <div class="form-row" style="max-width:200px">
+            <label>Category</label>
+            <select id="q-cat">
+              <option value="">All</option>
+              <option value="raga">Raga</option>
+              <option value="taal">Taal</option>
+              <option value="bandish">Bandish</option>
+              <option value="kriti">Kriti</option>
+              <option value="artist">Artist</option>
+              <option value="guru">Guru</option>
+              <option value="concert">Concert</option>
+              <option value="course">Course</option>
+              <option value="thread">Thread</option>
+              <option value="archive">Archive</option>
+              <option value="knowledge">Knowledge</option>
+            </select>
+          </div>
+        </div>
+        <div id="q-list" class="grid-cards">
+          <p class="loading">Loading&hellip;</p>
+        </div>
+      </div>
+
+      <!-- ========== MODULE TABS ========== -->
+      <div class="admin-panel" data-panel="ragas">
+        <div class="admin-toolbar">
+          <div class="form-row" style="flex:1;min-width:240px">
+            <label>Search</label>
+            <input type="search" data-search="ragas" placeholder="Search by name, thaat, mood&hellip;" />
+          </div>
+        </div>
+        <div id="t-ragas"></div>
+      </div>
+      <div class="admin-panel" data-panel="taals">
+        <div class="admin-toolbar">
+          <div class="form-row" style="flex:1;min-width:240px"><label>Search</label><input type="search"
+              data-search="taals" placeholder="Search by name, bols&hellip;" /></div>
+        </div>
+        <div id="t-taals"></div>
+      </div>
+      <div class="admin-panel" data-panel="bandishes">
+        <div class="admin-toolbar">
+          <div class="form-row" style="flex:1;min-width:240px"><label>Search</label><input type="search"
+              data-search="bandishes" placeholder="Search by title, composer, raga&hellip;" /></div>
+        </div>
+        <div id="t-bandishes"></div>
+      </div>
+      <div class="admin-panel" data-panel="artists">
+        <div class="admin-toolbar">
+          <div class="form-row" style="flex:1;min-width:240px"><label>Search</label><input type="search"
+              data-search="artists" placeholder="Search by name, discipline&hellip;" /></div>
+        </div>
+        <div id="t-artists"></div>
+      </div>
+      <div class="admin-panel" data-panel="gurus">
+        <div class="admin-toolbar">
+          <div class="form-row" style="flex:1;min-width:240px"><label>Search</label><input type="search"
+              data-search="gurus" placeholder="Search by name, gharana&hellip;" /></div>
+        </div>
+        <div id="t-gurus"></div>
+      </div>
+      <div class="admin-panel" data-panel="concerts">
+        <div class="admin-toolbar">
+          <div class="form-row" style="flex:1;min-width:240px"><label>Search</label><input type="search"
+              data-search="concerts" placeholder="Search by title, artist, venue&hellip;" /></div>
+        </div>
+        <div id="t-concerts"></div>
+      </div>
+      <div class="admin-panel" data-panel="courses">
+        <div class="admin-toolbar">
+          <div class="form-row" style="flex:1;min-width:240px"><label>Search</label><input type="search"
+              data-search="courses" placeholder="Search by title, level&hellip;" /></div>
+        </div>
+        <div id="t-courses"></div>
+      </div>
+      <div class="admin-panel" data-panel="threads">
+        <div class="admin-toolbar">
+          <div class="form-row" style="flex:1;min-width:240px"><label>Search</label><input type="search"
+              data-search="threads" placeholder="Search threads&hellip;" /></div>
+        </div>
+        <div id="t-threads"></div>
+      </div>
+      <div class="admin-panel" data-panel="archive">
+        <div class="admin-toolbar">
+          <div class="form-row" style="flex:1;min-width:240px"><label>Search</label><input type="search"
+              data-search="archive" placeholder="Search archive&hellip;" /></div>
+        </div>
+        <div id="t-archive"></div>
+      </div>
+      <div class="admin-panel" data-panel="knowledge">
+        <div class="admin-toolbar">
+          <div class="form-row" style="flex:1;min-width:240px"><label>Search</label><input type="search"
+              data-search="knowledge" placeholder="Search articles&hellip;" /></div>
+        </div>
+        <div id="t-knowledge"></div>
+      </div>
+
+      <!-- ========== USERS ========== -->
+      <div class="admin-panel" data-panel="users">
+        <div class="admin-toolbar">
+          <div class="form-row" style="flex:1;min-width:240px">
+            <label>Search users</label>
+            <input type="search" id="users-search" placeholder="username or email" />
+          </div>
+        </div>
+        <div id="users-list" class="users-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Reusable detail modal -->
+  <div class="modal-back" id="modal-back">
+    <div class="modal">
+      <h2 id="modal-title">Details</h2>
+      <div id="modal-body"></div>
+      <div class="modal-actions">
+        <button class="btn-outline" data-modal-action="close">Close</button>
+        <button class="btn-primary" id="modal-primary" hidden>Save changes</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="copyright">2026 ClassicalVerse &middot; Preserving sound, sharing knowledge.</p>
+    </div>
+  </footer>
+
+  <script src="/js/themes.js"></script><script src="/js/ui.js"></script><script src="/js/app.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    // -------- utilities --------
+    function esc(s) {
+      return String(s ?? '').replace(/[&<>"']/g, c => (
+        { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+      ));
+    }
+    function toast(msg, type = 'ok') {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast show ' + type;
+      setTimeout(() => t.className = 'toast', 2400);
+    }
+    function short(s, n = 80) {
+      s = String(s ?? '');
+      return s.length > n ? s.slice(0, n - 1) + '\u2026' : s;
+    }
+    function setActiveTab(name) {
+      document.querySelectorAll('.admin-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+      document.querySelectorAll('.admin-panel').forEach(p => p.classList.toggle('active', p.dataset.panel === name));
+    }
+    document.querySelectorAll('.admin-tab').forEach(t => {
+      t.addEventListener('click', () => setActiveTab(t.dataset.tab));
+    });
+
+    // -------- auth gate --------
+    (async () => {
+      const me = cvAuth.me || await cvAuth.fetchMe();
+      if (!me || me.role !== 'admin') { location.href = '/login?next=/admin'; }
+    })();
+
+    // -------- module data cache --------
+    const MODULES = ['ragas', 'taals', 'bandishes', 'artists', 'gurus', 'concerts', 'courses', 'threads', 'archive', 'knowledge'];
+    const API_PATH = {
+      ragas: '/api/ragas', taals: '/api/taals', bandishes: '/api/bandishes',
+      artists: '/api/artists', gurus: '/api/gurus', concerts: '/api/concerts',
+      courses: '/api/courses', threads: '/api/community', archive: '/api/archives',
+      knowledge: '/api/knowledge',
+    };
+    const DATA = {};
+    const PRIMARY_KEY = {
+      ragas: 'name', taals: 'name', bandishes: 'title', artists: 'name', gurus: 'name',
+      concerts: 'title', courses: 'title', threads: 'title', archive: 'title', knowledge: 'title',
+    };
+    const SECONDARY = {
+      ragas: 'tradition', taals: 'tradition', bandishes: 'raga', artists: 'discipline',
+      gurus: 'discipline', concerts: 'artist', courses: 'level', threads: 'tag',
+      archive: 'type', knowledge: 'tags',
+    };
+
+    async function loadModule(name) {
+      const res = await cvAuth.api(API_PATH[name]);
+      DATA[name] = Array.isArray(res) ? res : (res.items || res.data || []);
+      document.getElementById('cnt-' + name).textContent = DATA[name].length;
+      return DATA[name];
+    }
+    async function loadAll() {
+      await Promise.all(MODULES.map(loadModule));
+      // Update overview stat cards
+      const total = Object.values(DATA).reduce((a, b) => a + b.length, 0);
+      const stats = document.getElementById('stats');
+      stats.innerHTML = MODULES.map(m => `
+        <a class="stat-card" href="#${m}" data-jump="${m}">
+          <div class="num">${DATA[m].length}</div>
+          <div class="lbl">${m.charAt(0).toUpperCase() + m.slice(1)}</div>
+        </a>`).join('') + `
+        <a class="stat-card" href="#" id="users-stat" data-jump="users">
+          <div class="num" id="users-count">0</div>
+          <div class="lbl">Users</div>
+        </a>`;
+      stats.querySelectorAll('[data-jump]').forEach(el => {
+        el.addEventListener('click', e => { e.preventDefault(); setActiveTab(el.dataset.jump); });
+      });
+      renderAll();
+    }
+
+    // -------- table renderer --------
+    function rowFor(name, item) {
+      const primary = item[PRIMARY_KEY[name]] || item.name || item.title || item.slug;
+      const secondary = item[SECONDARY[name]] || '';
+      const slug = item.slug || '';
+      const id = item.id || slug;
+      return `<tr data-id="${esc(id)}" data-slug="${esc(slug)}">
+        <td class="title-cell">${esc(primary)}</td>
+        <td class="muted-cell">${esc(short(secondary, 60))}</td>
+        <td class="muted-cell">${esc(short(item.description || item.body || item.lyrics || '', 90))}</td>
+        <td>
+          <div class="row-actions">
+            <button class="btn-mini" data-act="view">View</button>
+            <button class="btn-mini" data-act="open">Open</button>
+            <button class="btn-mini danger" data-act="delete">Delete</button>
+          </div>
+        </td>
+      </tr>`;
+    }
+    function renderTable(name) {
+      const target = document.getElementById('t-' + name);
+      const list = DATA[name] || [];
+      if (!list.length) {
+        target.innerHTML = '<table class="data-table"><tbody><tr class="empty-row"><td>No entries yet.</td></tr></tbody></table>';
+        return;
+      }
+      target.innerHTML = `
+        <table class="data-table">
+          <thead><tr><th>Title / Name</th><th>${esc(SECONDARY[name] || '')}</th><th>Summary</th><th style="width:220px">Actions</th></tr></thead>
+          <tbody>${list.map(it => rowFor(name, it)).join('')}</tbody>
+        </table>`;
+      target.querySelectorAll('[data-act]').forEach(btn => {
+        btn.addEventListener('click', () => onRowAction(name, btn));
+      });
+    }
+    function renderAll() { MODULES.forEach(renderTable); }
+
+    // -------- search filter --------
+    document.querySelectorAll('[data-search]').forEach(inp => {
+      inp.addEventListener('input', () => {
+        const name = inp.dataset.search;
+        const q = inp.value.toLowerCase().trim();
+        const rows = document.querySelectorAll(`#t-${name} tbody tr`);
+        rows.forEach(r => r.style.display = r.textContent.toLowerCase().includes(q) ? '' : 'none');
+      });
+    });
+
+    // -------- row actions --------
+    function moduleUrl(name, item) {
+      const slug = item.slug || item.id;
+      if (name === 'threads') return '/community?slug=' + encodeURIComponent(slug);
+      if (name === 'knowledge') return '/knowledge?slug=' + encodeURIComponent(slug);
+      return '/' + name.replace(/s$/, '') + '?slug=' + encodeURIComponent(slug);
+    }
+    function onRowAction(name, btn) {
+      const tr = btn.closest('tr');
+      const item = (DATA[name] || []).find(x => (x.id || x.slug) == tr.dataset.id || x.slug === tr.dataset.slug);
+      if (!item) return;
+      const act = btn.dataset.act;
+      if (act === 'view') openModal(item);
+      else if (act === 'open') window.open(moduleUrl(name, item), '_blank');
+      else if (act === 'delete') deleteEntry(name, item);
+    }
+    async function deleteEntry(name, item) {
+      if (!confirm(`Delete this ${name.replace(/s$/, '')} entry?`)) return;
+      try {
+        await cvAuth.api('/api/admin/' + name + '?slug=' + encodeURIComponent(item.slug || item.id), { method: 'DELETE' });
+        toast('Deleted');
+        await loadModule(name);
+        renderTable(name);
+        await loadQueue();
+      } catch (e) { toast(e.message, 'error'); }
+    }
+
+    // -------- modal --------
+    const modal = document.getElementById('modal-back');
+    function openModal(item) {
+      document.getElementById('modal-title').textContent = item.name || item.title || 'Details';
+      const fields = Object.keys(item).filter(k => k !== 'password_hash')
+        .map(k => `<div><strong>${esc(k)}:</strong> ${esc(typeof item[k] === 'object' ? JSON.stringify(item[k]) : item[k])}</div>`)
+        .join('');
+      document.getElementById('modal-body').innerHTML = `<pre>${esc(JSON.stringify(item, null, 2))}</pre><div style="margin-top:10px">${fields}</div>`;
+      modal.classList.add('open');
+    }
+    modal.addEventListener('click', e => {
+      if (e.target === modal || e.target.dataset.modalAction === 'close') modal.classList.remove('open');
+    });
+
+    // -------- moderation queue --------
+    function summarise(s) {
+      const p = s.payload || {};
+      const title = p.name || p.title || s.category;
+      const fields = [];
+      ['tradition', 'thaat', 'time', 'mood', 'aroh', 'avroh', 'beats', 'structure',
+        'claps', 'bols', 'raga', 'taal', 'composer', 'language', 'discipline',
+        'gharana', 'period', 'venue', 'city', 'date', 'type', 'year', 'level',
+        'tag', 'duration', 'difficulty', 'tags']
+        .forEach(k => { if (p[k] != null && p[k] !== '' && !(Array.isArray(p[k]) && !p[k].length)) fields.push(`<strong>${esc(k)}:</strong> ${esc(Array.isArray(p[k]) ? p[k].join(', ') : p[k])}`); });
+      const body = p.description || p.body || '';
+      return { title, fields: fields.join(' &middot; '), body };
+    }
+    function renderQueue(items) {
+      const target = document.getElementById('q-list');
+      if (!items.length) { target.innerHTML = '<p class="loading">No submissions here.</p>'; return; }
+      target.innerHTML = items.map(s => {
+        const { title, fields, body } = summarise(s);
+        const author = s.author?.username || 'unknown';
+        const isPending = s.status === 'pending';
+        return `<article class="card submission-card" data-id="${esc(s.id)}">
+          <div class="meta">
+            <span class="pill gold">${esc(s.category)}</span>
+            <span class="status-pill status-${s.status}">${s.status}</span>
+            <span>by ${esc(author)} &middot; ${new Date((s.created_at || 0) * 1000).toLocaleString()}</span>
+          </div>
+          <h3 style="margin:6px 0 4px">${esc(title)}</h3>
+          <p class="payload">${fields || ''}</p>
+          ${body ? `<p style="margin-top:8px">${esc(body)}</p>` : ''}
+          ${s.youtube || s.payload?.youtube ? `<p style="font-size:12px"><a href="${esc(s.payload?.youtube || s.youtube)}" target="_blank">YouTube</a></p>` : ''}
+          ${s.spotify || s.payload?.spotify ? `<p style="font-size:12px"><a href="${esc(s.payload?.spotify || s.spotify)}" target="_blank">Spotify</a></p>` : ''}
+          ${isPending ? `
+            <div class="form-row" style="margin-top:12px"><label>Note to contributor (optional)</label>
+              <textarea data-note rows="2" placeholder="e.g. Please add references."></textarea></div>
+            <div class="form-actions">
+              <button class="btn-primary" data-action="approve">Approve &amp; publish</button>
+              <button class="btn-outline" data-action="reject">Reject</button>
+            </div>` : (s.admin_note ? `<div class="admin-note"><strong>Your note:</strong> ${esc(s.admin_note)}</div>` : '')}
+        </article>`;
+      }).join('');
+      target.querySelectorAll('[data-action]').forEach(btn => {
+        btn.addEventListener('click', () => review(btn));
+      });
+    }
+    async function loadQueue() {
+      const status = document.getElementById('q-filter').value;
+      const cat = document.getElementById('q-cat').value;
+      const target = document.getElementById('q-list');
+      target.innerHTML = '<p class="loading">Loading&hellip;</p>';
+      try {
+        const qs = new URLSearchParams();
+        if (status) qs.set('status', status);
+        if (cat) qs.set('category', cat);
+        const items = await cvAuth.api('/api/admin/submissions' + (qs.toString() ? '?' + qs : ''));
+        document.getElementById('cnt-queue').textContent = items.filter(i => i.status === 'pending').length;
+        renderQueue(items);
+      } catch (e) {
+        if (e.status === 401 || e.status === 403) { location.href = '/login?next=/admin'; return; }
+        target.innerHTML = `<p class="form-error">${esc(e.message)}</p>`;
+      }
+    }
+    async function review(btn) {
+      const card = btn.closest('[data-id]');
+      const id = card.dataset.id;
+      const action = btn.dataset.action;
+      const note = card.querySelector('[data-note]')?.value || '';
+      btn.disabled = true; btn.textContent = action === 'approve' ? 'Publishing\u2026' : 'Rejecting\u2026';
+      try {
+        await cvAuth.api(`/api/admin/submissions/${id}/${action}`, { method: 'POST', body: { note } });
+        toast(action === 'approve' ? 'Published' : 'Rejected');
+        await loadQueue();
+        // refresh the related module tab data if approved
+        if (action === 'approve') {
+          // best effort: the category of the submission
+        }
+      } catch (e) { btn.disabled = false; btn.textContent = action === 'approve' ? 'Approve & publish' : 'Reject'; toast(e.message, 'error'); }
+    }
+    document.getElementById('q-filter').addEventListener('change', loadQueue);
+    document.getElementById('q-cat').addEventListener('change', loadQueue);
+
+    // -------- users panel --------
+    async function loadUsers() {
+      try {
+        const users = await cvAuth.api('/api/admin/users');
+        document.getElementById('cnt-users').textContent = users.length;
+        document.getElementById('users-count').textContent = users.length;
+        DATA.users = users;
+        renderUsers();
+      } catch (e) { toast(e.message, 'error'); }
+    }
+    function renderUsers() {
+      const q = (document.getElementById('users-search').value || '').toLowerCase().trim();
+      const list = (DATA.users || []).filter(u => !q || u.username.toLowerCase().includes(q) || (u.email || '').toLowerCase().includes(q));
+      const el = document.getElementById('users-list');
+      if (!list.length) { el.innerHTML = '<p class="loading">No users.</p>'; return; }
+      el.innerHTML = list.map(u => `
+        <div class="user-card" data-id="${esc(u.id)}">
+          <div style="display:flex;justify-content:space-between;align-items:start;gap:8px">
+            <div>
+              <div style="font-weight:600">${esc(u.username)}</div>
+              <div class="muted-cell">${esc(u.email || '')}</div>
+            </div>
+            <span class="role ${u.role === 'admin' ? 'admin' : ''}">${esc(u.role || 'user')}</span>
+          </div>
+          <div class="muted-cell" style="margin-top:6px;font-size:12px">Joined ${new Date((u.created_at || 0) * 1000).toLocaleDateString()}</div>
+          <div class="row-actions" style="margin-top:10px">
+            <button class="btn-mini" data-ua="role">${u.role === 'admin' ? 'Demote' : 'Make admin'}</button>
+            <button class="btn-mini" data-ua="delete">Delete</button>
+          </div>
+        </div>`).join('');
+      el.querySelectorAll('[data-ua]').forEach(btn => {
+        btn.addEventListener('click', () => onUserAction(btn));
+      });
+    }
+    async function onUserAction(btn) {
+      const card = btn.closest('[data-id]');
+      const id = card.dataset.id;
+      const u = (DATA.users || []).find(x => x.id === id);
+      if (!u) return;
+      const act = btn.dataset.ua;
+      try {
+        if (act === 'role') {
+          const newRole = u.role === 'admin' ? 'user' : 'admin';
+          await cvAuth.api('/api/admin/users/' + id + '/role', { method: 'POST', body: { role: newRole } });
+          toast(newRole === 'admin' ? 'Promoted to admin' : 'Demoted');
+          await loadUsers();
+        } else if (act === 'delete') {
+          if (!confirm('Delete this user account?')) return;
+          await cvAuth.api('/api/admin/users/' + id, { method: 'DELETE' });
+          toast('User deleted');
+          await loadUsers();
+        }
+      } catch (e) { toast(e.message, 'error'); }
+    }
+    document.getElementById('users-search').addEventListener('input', renderUsers);
+
+    // -------- boot --------
+    (async () => {
+      try {
+        await loadAll();
+        await loadQueue();
+        await loadUsers();
+      } catch (e) {
+        if (e.status === 401 || e.status === 403) { location.href = '/login?next=/admin'; return; }
+        toast(e.message, 'error');
+      }
+    })();
+  </script>
+
+  <!-- Floating Contribute Button -->
+  <a class="fab-contribute" href="/submit.html" aria-label="Contribute" title="Contribute to ClassicalVerse">
+    <span class="fab-icon" aria-hidden="true">+</span>
+    <span class="fab-label">Contribute</span>
+  </a>
+  <script src="/js/themes.js"></script><script src="/js/ui.js"></script><script src="/js/app.js" defer></script>
+</body>
+
+</html>

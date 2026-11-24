@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sign up �?,???? ClassicalVerse</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-wrap">
+      <div class="container nav-wrap-top">
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true">ॐ</span>
+          <span class="brand-text"><span>ClassicalVerse</span><span class="brand-name-sub">Sangeet · Raga · Taal</span></span>
+        </a>
+        <div class="header-actions">
+          <button class="icon-btn" id="theme-toggle" aria-label="Toggle colour theme"></button>
+          <a class="btn-primary" href="/learn">Start learning</a>
+          <div class="nav-account" id="account-links"></div>
+          <button class="icon-btn" id="mobile-toggle" aria-label="Open menu"></button>
+        </div>
+      </div>
+      <div class="nav-wrap-bottom">
+        <div class="container">
+          <nav class="nav-links" aria-label="Main navigation">
+            <a href="/ragas">Ragas</a>
+            <a href="/bandishes">Bandishes</a>
+            <a href="/taals">Taals</a>
+            <a href="/artists">Artists</a>
+            <a href="/gurus">Gurus</a>
+            <a href="/concerts">Concerts</a>
+            <a href="/learn">Learn</a>
+            <a href="/community">Community</a>
+            <a href="/archive">Archive</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+      <div class="grid">
+        <a href="/ragas">Ragas</a><a href="/bandishes">Bandishes</a>
+        <a href="/taals">Taals</a><a href="/artists">Artists</a>
+        <a href="/gurus">Gurus</a><a href="/concerts">Concerts</a>
+        <a href="/learn">Learn</a><a href="/community">Community</a>
+        <a href="/archive">Archive</a><a href="/knowledge">Knowledge</a>
+      </div>
+    </div>
+  </header>
+<main>
+  <section class="section" style="padding-top:80px;display:flex;justify-content:center;">
+    <form id="signup-form" class="form-card">
+      <h1>Create an account</h1>
+      <p class="lede">Join the community to share ragas, taals, and knowledge.</p>
+      <p class="form-error" id="form-error"></p>
+      <div class="form-row">
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text" required minlength="3" maxlength="32" />
+        <span class="hint">3-32 characters. Letters, numbers, dashes.</span>
+      </div>
+      <div class="form-row">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required />
+      </div>
+      <div class="form-row">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" required minlength="6" />
+        <span class="hint">At least 6 characters.</span>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn-primary">Create account</button>
+        <a href="/login" class="muted" style="font-size:14px">Already have an account? Log in</a>
+      </div>
+    </form>
+  </section>
+</main>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p class="copyright">� 2026 ClassicalVerse Preserving sound, sharing knowledge.</p>
+  </div>
+</footer>
+<script src="/js/themes.js"></script><script src="/js/ui.js"></script><script src="/js/app.js"></script>
+<script src="/js/auth.js"></script>
+<script>
+  cvForm.bindForm('#signup-form', async (fd) => {
+    const body = {
+      username: fd.get('username').trim(),
+      email: fd.get('email').trim(),
+      password: fd.get('password'),
+    };
+    await cvAuth.api('/api/auth/register', { method: 'POST', body });
+    await cvAuth.fetchMe();
+    cvAuth.renderAccountLinks();
+    location.href = '/profile';
+  });
+</script>
+
+<!-- Floating Contribute Button -->
+<a class="fab-contribute" href="/submit.html" aria-label="Contribute" title="Contribute to ClassicalVerse">
+  <span class="fab-icon" aria-hidden="true">+</span>
+  <span class="fab-label">Contribute</span>
+</a>
+<script src="/js/themes.js"></script><script src="/js/ui.js"></script><script src="/js/app.js" defer></script>
+</body>
+</html>
+

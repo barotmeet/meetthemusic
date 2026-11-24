@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Knowledgeverse &mdash; ClassicalVerse</title>
+<meta name="description" content="The graph of how Indian classical music connects." />
+<link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+<div id="cv-header"></div>
+<main>
+  <header class="page-header reveal">
+    <p class="kicker">Knowledgeverse</p>
+    <h1 class="page-title">The graph of how it all connects</h1>
+    <p class="page-lede">A living map of ragas, taals, artists, gharanas, compositions, and concerts &mdash; coming soon as an interactive visualisation.</p>
+  </header>
+  <section class="section">
+    <div class="card knowledge-coming-soon">
+      <div class="icon" aria-hidden="true">&#9836;</div>
+      <h2>Coming Soon</h2>
+      <p>An interactive knowledge graph connecting ragas, artists, compositions, and traditions is in development. Stay tuned.</p>
+      <div style="margin-top:28px">
+        <a class="btn-primary" href="/ragas">Explore Ragas</a>
+        <a class="btn-outline" style="margin-left:10px" href="/bandishes">Browse Bandishes</a>
+      </div>
+    </div>
+    <div id="knowledge-articles" class="grid-cards" style="margin-top:32px"></div>
+  </section>
+</main>
+<div id="cv-footer"></div>
+<div id="cv-fab"></div>
+<script src="/js/layout.js"></script>
+<script src="/js/themes.js"></script><script src="/js/ui.js"></script><script src="/js/app.js"></script>
+<script src="/js/auth.js"></script>
+<script>
+  api('/api/knowledge').then(items => {
+    const el = document.getElementById('knowledge-articles');
+    if (!el || !items.length) return;
+    el.innerHTML = items.map(k => `
+      <div class="card">
+        <div>${(k.tags||[]).map(t => `<span class="pill">${t}</span>`).join('')}</div>
+        <h3 style="margin-top:10px">${k.title}</h3>
+        <p style="margin-top:8px;line-height:1.7">${k.body}</p>
+      </div>`).join('');
+  }).catch(() => {});
+</script>
+</body>
+</html>

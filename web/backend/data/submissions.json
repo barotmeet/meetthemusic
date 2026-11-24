@@ -1,0 +1,125 @@
+[
+  {
+    "id": "124a864eeaec",
+    "user_id": "f1a09261886d",
+    "category": "raga",
+    "payload": {
+      "name": "Demo Raga",
+      "slug": "demo-raga",
+      "tradition": "Hindustani",
+      "thaat": "Bilawal",
+      "time": "Morning",
+      "mood": "Devotional",
+      "aroh": "S R G M P D N S",
+      "avroh": "S N D P M G R S",
+      "pakad": "—",
+      "vadi": "—",
+      "samvadi": "—",
+      "description": "A raga submitted by alice.",
+      "youtube": "",
+      "spotify": ""
+    },
+    "status": "approved",
+    "admin_note": "Welcome to the library!",
+    "created_at": 1783187162.6511798,
+    "reviewed_at": 1783187162.823356,
+    "reviewed_by": "c252ec05bf16"
+  },
+  {
+    "id": "9b216cf4b595",
+    "user_id": "f1a09261886d",
+    "category": "knowledge",
+    "payload": {
+      "slug": "on-the-pakad",
+      "title": "On the Pakad",
+      "body": "The pakad is the catchphrase of a raga — a short melodic motif that uniquely identifies it.",
+      "tags": [
+        "theory",
+        "intermediate"
+      ],
+      "youtube": "",
+      "spotify": ""
+    },
+    "status": "rejected",
+    "admin_note": "Please add references.",
+    "created_at": 1783187162.67304,
+    "reviewed_at": 1783187162.8424509,
+    "reviewed_by": "c252ec05bf16"
+  },
+  {
+    "id": "f3ef35c27d6a",
+    "user_id": "c252ec05bf16",
+    "category": "taal",
+    "payload": {
+      "name": "Dadra",
+      "slug": "dadra",
+      "beats": 6,
+      "structure": "3+3",
+      "claps": "X 2 3 , 0 5 6",
+      "bols": "Dha Dhi Na | Dha Ti Na",
+      "tradition": "Hindustani"
+    },
+    "status": "approved",
+    "admin_note": "",
+    "created_at": 1783187229.1896229,
+    "reviewed_at": 1783187247.6477075,
+    "reviewed_by": "c252ec05bf16"
+  },
+  {
+    "id": "08b11c599eb9",
+    "user_id": "c252ec05bf16",
+    "category": "taal",
+    "payload": {
+      "name": "dadra",
+      "slug": "dadra",
+      "beats": 6,
+      "structure": "3+3",
+      "claps": "X 2 3 , 0 5 6",
+      "bols": "Dha Dhi Na | Dha Ti Na",
+      "tradition": "Hindustani"
+    },
+    "status": "approved",
+    "admin_note": "",
+    "created_at": 1783187281.5564973,
+    "reviewed_at": 1783187286.930246,
+    "reviewed_by": "c252ec05bf16"
+  },
+  {
+    "id": "687d298683c2",
+    "user_id": "c252ec05bf16",
+    "category": "taal",
+    "payload": {
+      "name": "Dadra",
+      "slug": "dadra",
+      "beats": 6,
+      "structure": "3+3",
+      "claps": "X 2 3 , 0 5 6",
+      "bols": "Dha Dhi Na | Dha Ti Na",
+      "tradition": "Hindustani"
+    },
+    "status": "approved",
+    "admin_note": "",
+    "created_at": 1783187317.7220714,
+    "reviewed_at": 1783187328.270293,
+    "reviewed_by": "c252ec05bf16"
+  },
+  {
+    "id": "7a286c2e85a6",
+    "user_id": "c252ec05bf16",
+    "category": "taal",
+    "payload": {
+      "name": "Kaherawa",
+      "slug": "kaherawa",
+      "beats": 8,
+      "structure": "4+4",
+      "claps": "X 2 3 4 , 0 6 7 8",
+      "bols": "Dha Ge Na Ti | Na Ka Dhi Na",
+      "tradition": "Hindustani"
+    },
+    "status": "approved",
+    "admin_note": "",
+    "created_at": 1783187463.905201,
+    "reviewed_at": 1783187469.7019055,
+    "reviewed_by": "c252ec05bf16"
+  }
+]

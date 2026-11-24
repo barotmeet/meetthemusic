@@ -1,0 +1,66 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Ragaverse &mdash; ClassicalVerse</title>
+<meta name="description" content="Browse Hindustani and Carnatic ragas with notes, chalan, and reference recordings." />
+<link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+<div id="cv-header"></div>
+<main>
+  <header class="page-header reveal">
+    <p class="kicker">Ragaverse</p>
+    <h1 class="page-title">The complete raga atlas</h1>
+    <p class="page-lede">Browse Hindustani and Carnatic ragas with aroh, avroh, pakad, vadi and samvadi.</p>
+  </header>
+  <div class="filter-bar">
+    <input class="search-input" type="search" id="raga-search" placeholder="Search ragas by name, thaat or mood&hellip;" aria-label="Search ragas" />
+    <button class="filter-chip active" data-filter="all">All</button>
+    <button class="filter-chip" data-filter="Hindustani">Hindustani</button>
+    <button class="filter-chip" data-filter="Carnatic">Carnatic</button>
+  </div>
+  <section class="section">
+    <div id="module-grid" class="grid-cards"><p class="loading">Loading ragas&hellip;</p></div>
+  </section>
+</main>
+<div id="cv-footer"></div>
+<div id="cv-fab"></div>
+<script src="/js/themes.js"></script>
+<script src="/js/ui.js"></script>
+<script src="/js/layout.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/auth.js"></script>
+<script>
+  loadModule('ragas', '/api/ragas');
+  // Search + filter
+  document.addEventListener('DOMContentLoaded', () => {
+    let allRagas = [];
+    api('/api/ragas').then(data => { allRagas = data; }).catch(() => {});
+    const searchEl = document.getElementById('raga-search');
+    const chips = document.querySelectorAll('.filter-chip');
+    let activeFilter = 'all';
+    function render() {
+      const q = (searchEl ? searchEl.value : '').toLowerCase();
+      const filtered = allRagas.filter(r => {
+        const matchFilter = activeFilter === 'all' || r.tradition === activeFilter;
+        const matchSearch = !q || r.name.toLowerCase().includes(q) || (r.thaat||'').toLowerCase().includes(q) || (r.mood||'').toLowerCase().includes(q);
+        return matchFilter && matchSearch;
+      });
+      const grid = document.getElementById('module-grid');
+      if (!grid) return;
+      if (!filtered.length) { grid.innerHTML = '<p class="loading">No ragas found.</p>'; return; }
+      grid.innerHTML = renderers.ragas(filtered);
+      window.CVUI?.observeReveals?.();
+    }
+    if (searchEl) searchEl.addEventListener('input', render);
+    chips.forEach(chip => chip.addEventListener('click', () => {
+      activeFilter = chip.dataset.filter;
+      chips.forEach(c => c.classList.toggle('active', c === chip));
+      render();
+    }));
+  });
+</script>
+</body>
+</html>

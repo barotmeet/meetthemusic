@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Concertverse &mdash; ClassicalVerse</title>
+<meta name="description" content="Upcoming concerts, festivals, and livestreams across India and the world." />
+<link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+<div id="cv-header"></div>
+<main>
+  <header class="page-header reveal">
+    <p class="kicker">Concertverse</p>
+    <h1 class="page-title">Live and streamed performances</h1>
+    <p class="page-lede">Upcoming concerts, festivals, and livestreams across India and the world.</p>
+  </header>
+  <section class="section">
+    <div id="module-grid" class="grid-cards"><p class="loading">Loading concerts&hellip;</p></div>
+  </section>
+</main>
+<div id="cv-footer"></div>
+<div id="cv-fab"></div>
+<script src="/js/layout.js"></script>
+<script src="/js/themes.js"></script><script src="/js/ui.js"></script><script src="/js/app.js"></script>
+<script src="/js/auth.js"></script>
+<script>loadModule('concerts', '/api/concerts');</script>
+</body>
+</html>

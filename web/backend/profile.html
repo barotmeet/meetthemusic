@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>My profile �?,???? ClassicalVerse</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="nav-wrap">
+      <div class="container nav-wrap-top">
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true">ॐ</span>
+          <span class="brand-text"><span>ClassicalVerse</span><span class="brand-name-sub">Sangeet · Raga · Taal</span></span>
+        </a>
+        <div class="header-actions">
+          <button class="icon-btn" id="theme-toggle" aria-label="Toggle colour theme"></button>
+          <a class="btn-primary" href="/learn">Start learning</a>
+          <div class="nav-account" id="account-links"></div>
+          <button class="icon-btn" id="mobile-toggle" aria-label="Open menu"></button>
+        </div>
+      </div>
+      <div class="nav-wrap-bottom">
+        <div class="container">
+          <nav class="nav-links" aria-label="Main navigation">
+            <a href="/ragas">Ragas</a>
+            <a href="/bandishes">Bandishes</a>
+            <a href="/taals">Taals</a>
+            <a href="/artists">Artists</a>
+            <a href="/gurus">Gurus</a>
+            <a href="/concerts">Concerts</a>
+            <a href="/learn">Learn</a>
+            <a href="/community">Community</a>
+            <a href="/archive">Archive</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+      <div class="grid">
+        <a href="/ragas">Ragas</a><a href="/bandishes">Bandishes</a>
+        <a href="/taals">Taals</a><a href="/artists">Artists</a>
+        <a href="/gurus">Gurus</a><a href="/concerts">Concerts</a>
+        <a href="/learn">Learn</a><a href="/community">Community</a>
+        <a href="/archive">Archive</a><a href="/knowledge">Knowledge</a>
+      </div>
+    </div>
+  </header>
+  <main>
+    <header class="page-header">
+      <p class="kicker">My account</p>
+      <h1 class="page-title" id="me-name">Profile</h1>
+      <p class="page-lede" id="me-meta"></p>
+    </header>
+    <section class="section">
+      <div class="form-actions" style="margin-bottom:24px">
+        <a class="btn-primary" href="/submit">+ New submission</a>
+      </div>
+      <h2 class="serif" style="font-size:24px;margin:0 0 16px;font-weight:500">Your submissions</h2>
+      <div id="subs" class="grid-cards">
+        <p class="loading">Loading�?,?�</p>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="copyright">� 2026 ClassicalVerse Preserving sound, sharing knowledge.</p>
+    </div>
+  </footer>
+  <script src="/js/themes.js"></script><script src="/js/ui.js"></script><script src="/js/app.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    function esc(s) {
+      return String(s ?? '').replace(/[&<>"']/g, c => (
+        { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+      ));
+    }
+
+    function renderSub(s) {
+      const p = s.payload || {};
+      let title = p.name || p.title || s.category;
+      let preview = p.description || p.body || '';
+      if (preview.length > 180) preview = preview.slice(0, 180) + '�?,?�';
+      let status = s.status || 'pending';
+      let msg = '';
+      if (status === 'pending') {
+        msg = '<p class="muted" style="font-size:13px;margin:4px 0 0">Awaiting admin review. You will see the result here.</p>';
+      } else if (status === 'approved') {
+        msg = '<p style="font-size:13px;margin:4px 0 0;color:#2e7d32">�?"??o Approved and published to the library.</p>';
+      } else if (status === 'rejected') {
+        msg = '<p style="font-size:13px;margin:4px 0 0;color:#b00020">�?"??" Not approved.</p>';
+      }
+      const note = s.admin_note
+        ? `<div class="admin-note"><strong>Admin note:</strong> ${esc(s.admin_note)}</div>` : '';
+      return `
+      <article class="card submission-card">
+        <div class="meta">
+          <span class="pill gold">${esc(s.category)}</span>
+          <span class="status-pill status-${status}">${status}</span>
+          <span>${new Date((s.created_at || 0) * 1000).toLocaleDateString()}</span>
+        </div>
+        <h3 style="margin:6px 0 2px">${esc(title)}</h3>
+        <p class="payload">${esc(preview)}</p>
+        ${msg}
+        ${note}
+      </article>`;
+    }
+
+    (async () => {
+      try {
+        const { user, submissions } = await cvAuth.api('/api/profile');
+        document.getElementById('me-name').textContent = user.username;
+        const member = new Date((user.created_at || 0) * 1000).toLocaleDateString();
+        document.getElementById('me-meta').textContent =
+          `Joined ${member} ?,� ${submissions.length} submission${submissions.length === 1 ? '' : 's'}` +
+          (user.role === 'admin' ? ' ?,� admin' : '');
+        const target = document.getElementById('subs');
+        if (!submissions.length) {
+          target.innerHTML = '<p class="loading">No submissions yet. <a href="/submit" style="color:var(--gold)">Add one �?????T</a></p>';
+          return;
+        }
+        target.innerHTML = submissions.map(renderSub).join('');
+      } catch (e) {
+        if (e.status === 401) location.href = '/login?next=/profile';
+        else document.getElementById('subs').innerHTML = `<p class="form-error">${esc(e.message)}</p>`;
+      }
+    })();
+  </script>
+
+<!-- Floating Contribute Button -->
+<a class="fab-contribute" href="/submit.html" aria-label="Contribute" title="Contribute to ClassicalVerse">
+  <span class="fab-icon" aria-hidden="true">+</span>
+  <span class="fab-label">Contribute</span>
+</a>
+<script src="/js/themes.js"></script><script src="/js/ui.js"></script><script src="/js/app.js" defer></script>
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "c252ec05bf16",
+    "username": "admin",
+    "email": "admin@classicalverse.local",
+    "password_hash": "scrypt:32768:8:1$UN3YuD54jDJCgHgK$4dc582e621270b1d5a67af87dc1dd355de88459a84418c42d9aafc224875c82c1ddf38a6d6b169cc7239064e94c79aa7dca6f34aef8a6519614c3ff260d0705a",
+    "role": "admin",
+    "created_at": 1783187162.47868
+  },
+  {
+    "id": "f1a09261886d",
+    "username": "alice",
+    "email": "alice@x.com",
+    "password_hash": "scrypt:32768:8:1$fCxVCR4FfQ2b14gv$4b9ef54de7ff077a1a699f2092828b8e4ffa255eeb1032d7349b5e48d43ba88fc6f35ba3572d15e6cdf80ca4026a16fcc010adb2aa26b7772c01d5f17d7d60fd",
+    "role": "user",
+    "created_at": 1783187162.6326725
+  },
+  {
+    "id": "e5d52c0d704f",
+    "username": "Barot",
+    "email": "barot@gmail.com",
+    "password_hash": "scrypt:32768:8:1$Kf9JQnB8WGqD6R58$30a6e32513611fb47275480963a19d7cae7db26f4a685d7ff4cbc9e25ddf73130c6c88b072d8fd3cb9ef32df7730ff4b588b439e7b89d03c029fb428775793d7",
+    "role": "user",
+    "created_at": 1784824337.600817
+  }
+]

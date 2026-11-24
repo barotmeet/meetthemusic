@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contribute ClassicalVerse</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="nav-wrap">
+      <div class="container nav-wrap-top">
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true">ॐ</span>
+          <span class="brand-text"><span>ClassicalVerse</span><span class="brand-name-sub">Sangeet · Raga · Taal</span></span>
+        </a>
+        <div class="header-actions">
+          <button class="icon-btn" id="theme-toggle" aria-label="Toggle colour theme"></button>
+          <a class="btn-primary" href="/learn">Start learning</a>
+          <div class="nav-account" id="account-links"></div>
+          <button class="icon-btn" id="mobile-toggle" aria-label="Open menu"></button>
+        </div>
+      </div>
+      <div class="nav-wrap-bottom">
+        <div class="container">
+          <nav class="nav-links" aria-label="Main navigation">
+            <a href="/ragas">Ragas</a>
+            <a href="/bandishes">Bandishes</a>
+            <a href="/taals">Taals</a>
+            <a href="/artists">Artists</a>
+            <a href="/gurus">Gurus</a>
+            <a href="/concerts">Concerts</a>
+            <a href="/learn">Learn</a>
+            <a href="/community">Community</a>
+            <a href="/archive">Archive</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+      <div class="grid">
+        <a href="/ragas">Ragas</a><a href="/bandishes">Bandishes</a>
+        <a href="/taals">Taals</a><a href="/artists">Artists</a>
+        <a href="/gurus">Gurus</a><a href="/concerts">Concerts</a>
+        <a href="/learn">Learn</a><a href="/community">Community</a>
+        <a href="/archive">Archive</a><a href="/knowledge">Knowledge</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <header class="page-header">
+      <p class="kicker">Contribute</p>
+      <h1 class="page-title">Add to the library</h1>
+      <p class="page-lede">Submissions are reviewed by an admin before they appear on the site. You'll see the outcome
+        in your profile.</p>
+    </header>
+
+    <section class="section" style="max-width:820px;">
+      <div class="form-card" style="max-width:none">
+        <p class="form-error" id="form-error"></p>
+        <p class="form-success" id="form-success"></p>
+        <form id="submit-form">
+          <div class="form-row">
+            <label for="category">What are you contributing?</label>
+            <select id="category" name="category" required>
+              <optgroup label="Core music library">
+                <option value="raga">A raga</option>
+                <option value="taal">A taal</option>
+                <option value="bandish">A bandish (Hindustani composition)</option>
+                <option value="kriti">A kriti (Carnatic composition)</option>
+              </optgroup>
+              <optgroup label="People &amp; institutions">
+                <option value="artist">An artist / performer</option>
+                <option value="guru">A guru / teacher</option>
+              </optgroup>
+              <optgroup label="Events, learning &amp; community">
+                <option value="concert">A concert / performance</option>
+                <option value="course">A learning course</option>
+                <option value="thread">A community thread</option>
+              </optgroup>
+              <optgroup label="Knowledge &amp; history">
+                <option value="archive">An archive item (recording / manuscript / interview)</option>
+                <option value="knowledge">A knowledge article</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <!-- ============= RAGA ============= -->
+          <div data-cat="raga">
+            <div class="form-row"><label>Name<input name="name" data-f="name" type="text" required /></label></div>
+            <div class="form-row"><label>Tradition
+                <select name="tradition" data-f="tradition">
+                  <option>Hindustani</option>
+                  <option>Carnatic</option>
+                </select>
+              </label></div>
+            <div class="form-row"><label>Thaat / Melakarta<input name="thaat" data-f="thaat" type="text" required /></label></div>
+            <div class="form-row"><label>Time<input name="time" data-f="time" type="text" placeholder="e.g. Evening"
+                  required /></label></div>
+            <div class="form-row"><label>Mood<input name="mood" data-f="mood" type="text" required /></label></div>
+            <div class="form-row"><label>Aroh<input name="aroh" data-f="aroh" type="text" required /></label></div>
+            <div class="form-row"><label>Avroh<input name="avroh" data-f="avroh" type="text" required /></label></div>
+            <div class="form-row"><label>Pakad (optional)<input name="pakad" data-f="pakad" type="text" /></label></div>
+            <div class="form-row"><label>Vadi (optional)<input name="vadi" data-f="vadi" type="text" /></label></div>
+            <div class="form-row"><label>Samvadi (optional)<input name="samvadi" data-f="samvadi" type="text" /></label></div>
+            <div class="form-row"><label>Description<textarea name="description" data-f="description" required></textarea></label></div>
+            <div class="form-row"><label>YouTube link (optional)<input name="youtube" data-f="youtube" type="url" placeholder="https://www.youtube.com/..." /></label></div>
+            <div class="form-row"><label>Spotify link (optional)<input name="spotify" data-f="spotify" type="url" placeholder="https://open.spotify.com/..." /></label></div>
+          </div>
+
+          <!-- ============= TAAL ============= -->
+          <div data-cat="taal" hidden>
+            <div class="form-row"><label>Name<input name="name" data-f="name" type="text" required /></label></div>
+            <div class="form-row"><label>Tradition
+                <select name="tradition" data-f="tradition">
+                  <option>Hindustani</option>
+                  <option>Carnatic</option>
+                </select>
+              </label></div>
+            <div class="form-row"><label>Beats (matra)<input name="beats" data-f="beats" type="number" min="1" max="64"
+                  required /></label></div>
+            <div class="form-row"><label>Structure (vibhag)<input name="structure" data-f="structure" type="text"
+                  placeholder="e.g. 4+4+4+4" required /></label></div>
+            <div class="form-row"><label>Clap pattern<input name="claps" data-f="claps" type="text" placeholder="e.g. X 2 0 3"
+                  required /></label></div>
+            <div class="form-row"><label>Bols<textarea name="bols" data-f="bols" required></textarea></label></div>
+            <div class="form-row"><label>YouTube link (optional)<input name="youtube" data-f="youtube" type="url" placeholder="https://www.youtube.com/..." /></label></div>
+            <div class="form-row"><label>Spotify link (optional)<input name="spotify" data-f="spotify" type="url" placeholder="https://open.spotify.com/..." /></label></div>
+          </div>
+
+          <!-- ============= BANDISH (Hindustani composition) ============= -->
+          <div data-cat="bandish" hidden>
+            <div class="form-row"><label>Title<input data-f="title" type="text" required /></label></div>
+            <div class="form-row"><label>Tradition
+                <select data-f="tradition">
+                  <option>Hindustani</option>
+                </select>
+              </label></div>
+            <div class="form-row"><label>Raga<input data-f="raga" type="text" required /></label></div>
+            <div class="form-row"><label>Taal<input data-f="taal" type="text" required /></label></div>
+            <div class="form-row"><label>Composer<input data-f="composer" type="text" required /></label></div>
+            <div class="form-row"><label>Language<input data-f="language" type="text" required /></label></div>
+            <div class="form-row"><label>Difficulty
+                <select data-f="difficulty">
+                  <option>Beginner</option>
+                  <option selected>Intermediate</option>
+                  <option>Advanced</option>
+                </select>
+              </label></div>
+            <div class="form-row"><label>Lyrics (original script)<textarea data-f="lyrics" required style="min-height:120px"></textarea></label></div>
+            <div class="form-row"><label>Translation (optional)<textarea data-f="translation" style="min-height:80px"></textarea></label></div>
+            <div class="form-row"><label>YouTube link (optional)<input data-f="youtube" type="url" placeholder="https://www.youtube.com/..." /></label></div>
+            <div class="form-row"><label>Spotify link (optional)<input data-f="spotify" type="url" placeholder="https://open.spotify.com/..." /></label></div>
+            <div class="form-row"><label>About this bandish<textarea data-f="description" required style="min-height:100px"></textarea></label></div>
+          </div>
+
+          <!-- ============= KRITI (Carnatic composition) ============= -->
+          <div data-cat="kriti" hidden>
+            <div class="form-row"><label>Title<input data-f="title" type="text" required /></label></div>
+            <div class="form-row"><label>Tradition
+                <select data-f="tradition">
+                  <option>Carnatic</option>
+                </select>
+              </label></div>
+            <div class="form-row"><label>Raga<input data-f="raga" type="text" required /></label></div>
+            <div class="form-row"><label>Taal<input data-f="taal" type="text" required placeholder="e.g. Adi, Rupakam" /></label></div>
+            <div class="form-row"><label>Composer<input data-f="composer" type="text" required placeholder="e.g. Tyagaraja, Muthuswami Dikshitar" /></label></div>
+            <div class="form-row"><label>Language<input data-f="language" type="text" required placeholder="e.g. Telugu, Sanskrit, Tamil" /></label></div>
+            <div class="form-row"><label>Difficulty
+                <select data-f="difficulty">
+                  <option>Beginner</option>
+                  <option>Intermediate</option>
+                  <option selected>Advanced</option>
+                </select>
+              </label></div>
+            <div class="form-row"><label>Sahityam / Lyrics (original script)<textarea data-f="lyrics" required style="min-height:120px"></textarea></label></div>
+            <div class="form-row"><label>English translation (optional)<textarea data-f="translation" style="min-height:80px"></textarea></label></div>
+            <div class="form-row"><label>YouTube link (optional)<input data-f="youtube" type="url" placeholder="https://www.youtube.com/..." /></label></div>
+            <div class="form-row"><label>Spotify link (optional)<input data-f="spotify" type="url" placeholder="https://open.spotify.com/..." /></label></div>
+            <div class="form-row"><label>About this kriti<textarea data-f="description" required style="min-height:100px"></textarea></label></div>
+          </div>
+
+          <!-- ============= ARTIST ============= -->
+          <div data-cat="artist" hidden>
+            <div class="form-row"><label>Name<input data-f="name" type="text" required /></label></div>
+            <div class="form-row"><label>Tradition
+                <select data-f="tradition">
+                  <option>Hindustani</option>
+                  <option>Carnatic</option>
+                </select>
+              </label></div>
+            <div class="form-row"><label>Discipline / instrument<input data-f="discipline" type="text" required
+                  placeholder="e.g. Vocal, Sitar, Veena" /></label></div>
+            <div class="form-row"><label>Gharana / school (optional)<input data-f="gharana" type="text" /></label></div>
+            <div class="form-row"><label>Era / active years (optional)<input data-f="era" type="text" placeholder="e.g. 1920–1985" /></label></div>
+            <div class="form-row"><label>Instruments / disciplines (optional)<input data-f="instruments" type="text" placeholder="e.g. Vocal, Sitar, Tabla" /></label></div>
+            <div class="form-row"><label>YouTube link (optional)<input data-f="youtube" type="url" placeholder="https://www.youtube.com/..." /></label></div>
+            <div class="form-row"><label>Spotify link (optional)<input data-f="spotify" type="url" placeholder="https://open.spotify.com/..." /></label></div>
+            <div class="form-row"><label>Biography<textarea data-f="description" required></textarea></label></div>
+          </div>
+
+          <!-- ============= GURU ============= -->
+          <div data-cat="guru" hidden>
+            <div class="form-row"><label>Name<input data-f="name" type="text" required /></label></div>
+            <div class="form-row"><label>Tradition
+                <select data-f="tradition">
+                  <option>Hindustani</option>
+                  <option>Carnatic</option>
+                </select>
+              </label></div>
+            <div class="form-row"><label>Discipline / subject taught<input data-f="discipline" type="text"
+                  required /></label></div>
+            <div class="form-row"><label>Gharana / lineage (optional)<input data-f="gharana" type="text" /></label>
+            </div>
+            <div class="form-row"><label>Specialty (optional)<input data-f="specialty" type="text" placeholder="e.g. Khayal, Veena, Tabla" /></label></div>
+            <div class="form-row"><label>Experience (optional)<input data-f="experience" type="text" placeholder="e.g. 15 years" /></label></div>
+            <div class="form-row"><label>Mode (optional)<input data-f="mode" type="text" placeholder="e.g. Online, In-person" /></label></div>
+            <div class="form-row"><label>YouTube link (optional)<input data-f="youtube" type="url" placeholder="https://www.youtube.com/..." /></label></div>
+            <div class="form-row"><label>Spotify link (optional)<input data-f="spotify" type="url" placeholder="https://open.spotify.com/..." /></label></div>
+            <div class="form-row"><label>Bio &amp; teaching style<textarea data-f="description"
+                  required></textarea></label></div>
+          </div>
+
+          <!-- ============= CONCERT ============= -->
+          <div data-cat="concert" hidden>
+            <div class="form-row"><label>Concert title<input data-f="title" type="text" required /></label></div>
+            <div class="form-row"><label>Headlining artist(s)<input data-f="artist" type="text" required /></label>
+            </div>
+            <div class="form-row"><label>Venue<input data-f="venue" type="text" required /></label></div>
+            <div class="form-row"><label>City (optional)<input data-f="city" type="text" /></label></div>
+            <div class="form-row"><label>Date<input data-f="date" type="text" required
+                  placeholder="e.g. 2025-11-21" /></label></div>
+            <div class="form-row"><label>Event type<input data-f="type" type="text" placeholder="e.g. Festival, Concert" /></label></div>
+            <div class="form-row"><label><input data-f="livestream" type="checkbox" /> Livestream available</label></div>
+            <div class="form-row"><label>YouTube link (optional)<input data-f="youtube" type="url" /></label></div>
+            <div class="form-row"><label>Spotify link (optional)<input data-f="spotify" type="url" /></label></div>
+            <div class="form-row"><label>Description / programme notes<textarea data-f="description"
+                  required></textarea></label></div>
+          </div>
+
+          <!-- ============= COURSE ============= -->
+          <div data-cat="course" hidden>
+            <div class="form-row"><label>Course title<input data-f="title" type="text" required /></label></div>
+            <div class="form-row"><label>Level
+                <select data-f="level">
+                  <option>Beginner</option>
+                  <option>Intermediate</option>
+                  <option>Advanced</option>
+                </select>
+              </label></div>
+            <div class="form-row"><label>Tradition
+                <select data-f="tradition">
+                  <option>Hindustani</option>
+                  <option>Carnatic</option>
+                  <option>Both</option>
+                </select>
+              </label></div>
+            <div class="form-row"><label>Duration (optional)<input data-f="duration" type="text"
+                  placeholder="e.g. 8 weeks" /></label></div>
+            <div class="form-row"><label>Lessons (optional)<input data-f="lessons" type="number" min="1" placeholder="e.g. 12" /></label></div>
+            <div class="form-row"><label>YouTube link (optional)<input data-f="youtube" type="url" placeholder="https://www.youtube.com/..." /></label></div>
+            <div class="form-row"><label>Spotify link (optional)<input data-f="spotify" type="url" placeholder="https://open.spotify.com/..." /></label></div>
+            <div class="form-row"><label>Course description<textarea data-f="description" required></textarea></label>
+            </div>
+          </div>
+
+          <!-- ============= THREAD ============= -->
+          <div data-cat="thread" hidden>
+            <div class="form-row"><label>Thread title<input data-f="title" type="text" required /></label></div>
+            <div class="form-row"><label>Tag
+                <select data-f="tag">
+                  <option>Discussion</option>
+                  <option>Question</option>
+                  <option>Learning</option>
+                  <option>Announcement</option>
+                  <option>Resource</option>
+                </select>
+              </label></div>
+            <div class="form-row"><label>Opening post<textarea data-f="body" required
+                  style="min-height:140px"></textarea></label></div>
+            <div class="form-row"><label>YouTube link (optional)<input data-f="youtube" type="url" placeholder="https://www.youtube.com/..." /></label></div>
+            <div class="form-row"><label>Spotify link (optional)<input data-f="spotify" type="url" placeholder="https://open.spotify.com/..." /></label></div>
+          </div>
+
+          <!-- ============= ARCHIVE ============= -->
+          <div data-cat="archive" hidden>
+            <div class="form-row"><label>Title<input data-f="title" type="text" required /></label></div>
+            <div class="form-row"><label>Type
+                <select data-f="type">
+                  <option>Recording</option>
+                  <option>Manuscript</option>
+                  <option>Concert</option>
+                  <option>Interview</option>
+                  <option>Photo</option>
+                  <option>Other</option>
+                </select>
+              </label></div>
+            <div class="form-row"><label>Year<input data-f="year" type="number" min="1500" max="2100"
+                  required /></label></div>
+            <div class="form-row"><label>YouTube link (optional)<input data-f="youtube" type="url" /></label></div>
+            <div class="form-row"><label>Spotify link (optional)<input data-f="spotify" type="url" /></label></div>
+            <div class="form-row"><label>Description / provenance<textarea data-f="description"
+                  required></textarea></label></div>
+          </div>
+
+          <!-- ============= KNOWLEDGE ============= -->
+          <div data-cat="knowledge" hidden>
+            <div class="form-row"><label>Title<input data-f="title" type="text" required /></label></div>
+            <div class="form-row"><label>Body<textarea data-f="body" required
+                  style="min-height:160px"></textarea></label></div>
+            <div class="form-row"><label>Tags (comma separated)<input data-f="tags" type="text"
+                  placeholder="theory, beginner" /></label></div>
+            <div class="form-row"><label>YouTube link (optional)<input data-f="youtube" type="url" placeholder="https://www.youtube.com/..." /></label></div>
+            <div class="form-row"><label>Spotify link (optional)<input data-f="spotify" type="url" placeholder="https://open.spotify.com/..." /></label></div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">Submit for review</button>
+            <a href="/profile" class="muted" style="font-size:14px">View your submissions</a>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="copyright">&copy; 2026 ClassicalVerse &middot; Preserving sound, sharing knowledge.</p>
+    </div>
+  </footer>
+
+  <script src="/js/themes.js"></script><script src="/js/ui.js"></script><script src="/js/app.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    // Require login first
+    (async () => {
+      const me = cvAuth.me || await cvAuth.fetchMe();
+      if (!me) { location.href = '/login?next=/submit'; }
+    })();
+
+    const sel = document.getElementById('category');
+    const blocks = document.querySelectorAll('[data-cat]');
+
+    // Which block to show for which category
+    const BLOCK_FOR_CAT = {
+      raga: 'raga',
+      taal: 'taal',
+      bandish: 'bandish',
+      kriti: 'kriti',
+      artist: 'artist',
+      guru: 'guru',
+      concert: 'concert',
+      course: 'course',
+      thread: 'thread',
+      archive: 'archive',
+      knowledge: 'knowledge',
+    };
+
+    function refresh() {
+      const cat = sel.value;
+      const active = BLOCK_FOR_CAT[cat];
+      blocks.forEach(b => {
+        const isActive = b.dataset.cat === active;
+        b.hidden = !isActive;
+        b.querySelectorAll('[data-f]').forEach(el => {
+          el.disabled = !isActive;
+        });
+      });
+      // Update the heading inside the active block so bandish/kriti get a clear title
+      document.querySelectorAll('.form-cat-title').forEach(t => t.remove());
+      const block = document.querySelector(`[data-cat="${active}"]`);
+      if (block) {
+        const title = document.createElement('p');
+        title.className = 'form-cat-title';
+        title.style.cssText = 'margin:8px 0 0;font-size:14px;color:var(--muted,#7a6e5c);text-transform:uppercase;letter-spacing:.08em;font-weight:600;';
+        title.textContent = cat === 'kriti'
+          ? 'Kriti details (Carnatic composition)'
+          : cat === 'bandish'
+            ? 'Bandish details (Hindustani composition)'
+            : '';
+        if (title.textContent) block.prepend(title);
+      }
+    }
+    sel.addEventListener('change', refresh);
+    refresh();
+
+    function collectFromBlock(block) {
+      const out = {};
+      block.querySelectorAll('[data-f]').forEach(el => {
+        if (el.type === 'checkbox') {
+          out[el.dataset.f] = el.checked;
+          return;
+        }
+        out[el.dataset.f] = (el.value || '').trim();
+      });
+      return out;
+    }
+
+    cvForm.bindForm('#submit-form', async (fd) => {
+      const cat = sel.value;
+      const payload = {};
+      const block = document.querySelector(`[data-cat="${BLOCK_FOR_CAT[cat]}"]`);
+
+      if (cat === 'raga' || cat === 'taal') {
+        Object.assign(payload, collectFromBlock(block));
+        if (cat === 'taal') {
+          const beats = parseInt(payload.beats, 10);
+          if (Number.isNaN(beats)) throw new Error('Beats must be a number');
+          payload.beats = beats;
+        }
+      } else if (cat === 'bandish' || cat === 'kriti') {
+        Object.assign(payload, collectFromBlock(block));
+      } else if (cat === 'archive') {
+        Object.assign(payload, collectFromBlock(block));
+        const y = parseInt(payload.year, 10);
+        if (Number.isNaN(y)) throw new Error('Year must be a number');
+        payload.year = y;
+      } else if (cat === 'knowledge') {
+        Object.assign(payload, collectFromBlock(block));
+        payload.tags = (payload.tags || '').split(',').map(t => t.trim()).filter(Boolean);
+      } else {
+        // artist, guru, concert, course, thread
+        Object.assign(payload, collectFromBlock(block));
+      }
+
+      const { submission } = await cvAuth.api('/api/submissions', {
+        method: 'POST', body: { category: cat, payload },
+      });
+      const ok = document.getElementById('form-success');
+      ok.textContent = 'Submitted! Track its status in your profile.';
+      document.getElementById('submit-form').reset();
+      refresh();
+    });
+  </script>
+
+  <!-- Floating Contribute Button -->
+  <a class="fab-contribute" href="/submit.html" aria-label="Contribute" title="Contribute to ClassicalVerse">
+    <span class="fab-icon" aria-hidden="true">+</span>
+    <span class="fab-label">Contribute</span>
+  </a>
+</body>
+
+</html>
